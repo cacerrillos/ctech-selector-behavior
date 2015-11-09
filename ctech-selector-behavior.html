@@ -6,6 +6,10 @@
 				type: Object,
 				readonly: true
 			},
+			defaultToFirst: {
+				type: Boolean,
+				value: false
+			},
 			attrForSelected: {
 				type: String,
 				value: 'id'
@@ -116,7 +120,7 @@
 			if(item) {
 				this._ctechSelector.select(this._ctechSelector.indexOf(item));
 			} else {
-				this._ctechSelector.select(0);
+				this._ctechSelector.select(this.defaultToFirst ? 0 : null);
 			}
 		},
 		ready: function() {
