@@ -39,6 +39,7 @@
 		},
 		listeners: {
 			'iron-select': '_onSelectedInternalChange',
+			'iron-deselect': '_onDeselectedInternalChange',
 			'dom-change': '_onTemplateDomChanged',
 			'iron-items-changed': 'test',
 			'testarino': 'test'
@@ -96,8 +97,11 @@
 				return null;
 			}
 		},
-		_onSelectedInternalChange: function(e){
+		_onSelectedInternalChange: function(e) {
 			this.selected = this._findItemWithId(e.detail.item.dataId);
+		},
+		_onDeselectedInternalChange: function(e) {
+			this.fire('ctech-deselect');
 		},
 		_onSelectedChange: function(e) {
 			if(e) {
