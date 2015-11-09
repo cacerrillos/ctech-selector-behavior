@@ -1,0 +1,23 @@
+{
+  "name": "ctech-selector-behavior",
+  "authors": [
+    "Carlos Cerrillos <carlos@cerrillostech.com>"
+  ],
+  "description": "An extension of iron-selector to work with objects.",
+  "main": "ctech-selector-behavior.html",
+  "moduleType": [],
+  "license": "Closed Source",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.2.0",
+    "iron-selector": "PolymerElements/iron-selector#^1.0.0"
+  }
+}

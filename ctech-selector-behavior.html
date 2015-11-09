@@ -1,0 +1,122 @@
+<link rel="import" href="../polymer/polymer.html">
+<script>
+	CTechSelectorBehavior = {
+		properties: {
+			_ctechSelector: {
+				type: Object,
+				readonly: true
+			},
+			attrForSelected: {
+				type: String,
+				value: 'id'
+			},
+			attrForText: {
+				type: String,
+				value: 'name'
+			},
+			items: {
+				type: Object,
+				observer: "_onItemsChanged"
+			},
+			itemsAsArray: {
+				type: Object,
+				computed: '_computeObjectToArray(items)',
+				notify: true
+			},
+			selected: {
+				type: Object,
+				observer: "_onSelectedChange",
+				readonly: true,
+				notify: true
+			},
+			defaultText: {
+				type: String,
+				value: "_____"
+			},
+			selectedText: {
+				type: String
+			}
+		},
+		listeners: {
+			'iron-select': '_onSelectedInternalChange',
+			'dom-change': '_onTemplateDomChanged',
+			'iron-items-changed': 'test',
+			'testarino': 'test'
+		},
+		_itemText: function(e) {
+			return this._getItemAttribute(e, this.attrForText);
+		},
+		_onTemplateDomChanged: function(e) {
+			var selectorItems = Polymer.dom(this.root).querySelectorAll('.ctech-selector-item');
+			for(var key in selectorItems) {
+				var o = this.get('itemsAsArray.'+ key);
+				selectorItems[key].dataId = o[this.attrForSelected];
+			}
+		},
+		test: function(e) {
+			console.log(e);
+		},
+		_onItemsChanged: function(e) {
+			this._ctechSelector = this.$$('.ctech-selector');
+			this.select();
+			this.fire('ctech-items-changed');
+		},
+		_computeObjectToArray: function(e) {
+			var arr = [];
+			for(var key in e) {
+				if(e.hasOwnProperty(key)) {
+					var o = e[key];
+					arr.push(o);
+				}
+			}
+			return arr;
+		},
+		_getItemAttribute: function(item, attribute) {
+			return item[attribute];
+		},
+		_findTemplateItemWithId: function(id) {
+			var found = this._ctechSelector.items.filter(function (o) { return o.dataId == id; }.bind(this));
+			if(found.length == 1) {
+				return found[0];
+			} else if(found.length > 1) {
+				console.error("More than one item found with a matching id! " + id);
+				console.error(this._ctechSelector.items);
+			} else {
+				return null;
+			}
+		},
+		_findItemWithId: function(id) {
+			var found = this._computeObjectToArray(this.items).filter(function (o) { return o[this.attrForSelected] == id; }.bind(this));
+			if(found.length == 1) {
+				return found[0];
+			} else if(found.length > 1) {
+				console.error("More than one item found with a matching id! " + id);
+				console.error(this._ctechSelector.items);
+			} else {
+				return null;
+			}
+		},
+		_onSelectedInternalChange: function(e){
+			this.selected = this._findItemWithId(e.detail.item.dataId);
+		},
+		_onSelectedChange: function(e) {
+			if(e) {
+				this.selectedText = this.selected[this.attrForText];
+			} else {
+				this.selectedText = this.defaultText;
+			}
+			this.fire('ctech-select', { item: e });
+		},
+		select: function(id) {
+			var item = this._findTemplateItemWithId(id);
+			if(item) {
+				this._ctechSelector.select(this._ctechSelector.indexOf(item));
+			} else {
+				this._ctechSelector.select(0);
+			}
+		},
+		ready: function() {
+			
+		}
+	}
+</script>
