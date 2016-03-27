@@ -108,9 +108,11 @@
 			this.selected = this._findItemWithId(e.detail.item.dataId);
 		},
 		_onDeselectedInternalChange: function(e) {
+			/*
 			e.preventDefault();
 			e.stopPropagation();
 			e.stopImmediatePropagation();
+			*/
 			this.fire('ctech-deselect');
 		},
 		_onSelectedChange: function(e) {
