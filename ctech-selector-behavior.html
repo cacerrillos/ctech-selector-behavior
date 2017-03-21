@@ -129,6 +129,8 @@
 				this._ctechSelector.select(this._ctechSelector.indexOf(item));
 			} else {
 				this._ctechSelector.select(this.defaultToFirst ? 0 : null);
+				if(!this.defaultToFirst)
+					this.selected = null;
 			}
 		},
 		ready: function() {
